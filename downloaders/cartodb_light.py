@@ -1,3 +1,12 @@
-from ..TileList import LOT
+from requests import get
+from pathlib  import Path
+from .head    import headers
 
-LOT('./data/irn_admbnda_adm0_unhcr_20190514.shp',4)
+def downloader(level, x, y):
+    if not Path.exists(Path("output/cartodb_light/{}/{}".format(str(level), str(x)))):
+        Path("output/cartodb_light/{}/{}".format(str(level), str(x))).mkdir(parents=True)
+    output = 'output/cartodb_light/{}/{}/{}.png'.format(str(level), str(x), str(y))
+    url = 'https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/'+str(level)+'/'+str(x)+'/'+str(y)+'.png'
+    image = get(url, stream=True, headers= headers()).content
+    with open(output, 'wb') as handler:
+        handler.write(image)
