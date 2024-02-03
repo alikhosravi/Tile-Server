@@ -31,7 +31,7 @@ def tileFinder(props):
   lat_deg2 = math.degrees(lat_rad2)
   return Polygon(((lon_deg,lat_deg), (lon_deg2,lat_deg), (lon_deg2,lat_deg2), (lon_deg,lat_deg2), (lon_deg,lat_deg)))
 
-def LOT(path):
+def LOT(path, zoom):
   country = gpd.read_file(path) # You can change it
   if country.crs != 4326:
     country = country.to_crs(4326)
