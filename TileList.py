@@ -40,7 +40,7 @@ def LOT(path, zoom):
   Tiles = gpd.GeoDataFrame(geometry=[tileFinder(props) for props in sTiles], crs=4326)
   Tiles['TileNum'] = sTiles
   Tiles = Tiles.to_crs(3857)
-  indx = Tiles.geometry.intersects(iran3857.geometry[0])
+  indx = Tiles.geometry.intersects(country3857.geometry[0])
   zs = []
   for lst in Tiles.loc[indx[indx].index]['TileNum']:
     zs.append((lst[0], lst[1]))
