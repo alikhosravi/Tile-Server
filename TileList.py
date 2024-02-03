@@ -31,20 +31,6 @@ def tileFinder(props):
   lat_deg2 = math.degrees(lat_rad2)
   return Polygon(((lon_deg,lat_deg), (lon_deg2,lat_deg), (lon_deg2,lat_deg2), (lon_deg,lat_deg2), (lon_deg,lat_deg)))
 
-iran = gpd.read_file('/data/irn_admbnda_adm0_unhcr_20190514.shp')
-iran3857 = iran.to_crs(3857)
-
-
-for zoom in range(8, 11):
-  sTiles  = StudyAreaTiles(iran.bounds['miny'][0], iran.bounds['minx'][0], iran.bounds['maxy'][0], iran.bounds['maxx'][0], zoom)
-  Tiles = gpd.GeoDataFrame(geometry=[tileFinder(props) for props in sTiles], crs=4326)
-  Tiles['TileNum'] = sTiles
-  Tiles = Tiles.to_crs(3857)
-  indx = Tiles.geometry.intersects(iran3857.geometry[0])
-  zs = []
-  for lst in Tiles.loc[indx[indx].index]['TileNum']:
-    zs.append((lst[0], lst[1]))
-
 def LOT(path):
   country = gpd.read_file(path) # You can change it
   if country.crs != 4326:
