@@ -32,7 +32,7 @@ def tileFinder(props):
   return Polygon(((lon_deg,lat_deg), (lon_deg2,lat_deg), (lon_deg2,lat_deg2), (lon_deg,lat_deg2), (lon_deg,lat_deg)))
 
 def Frame(path, zoom):
-  country = gpd.read_file(path) # You can change it
+  country = gpd.read_file(path) 
   if country.crs != 4326:
     country = country.to_crs(4326)
   country3857 = country.to_crs(3857)
@@ -42,4 +42,3 @@ def Frame(path, zoom):
   Tiles = Tiles.to_crs(3857)
   indx = Tiles.geometry.intersects(country3857.geometry[0])
   return Tiles.loc[indx[indx].index]
-  
