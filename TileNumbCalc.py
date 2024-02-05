@@ -50,8 +50,7 @@ def num2Tiles (sTiles, zoom):
   Tiles = Tiles.to_crs(3857)
   return Tiles
 
-
-zoom = 16
+zoom = 17
 country = gpd.read_file('/workspaces/Tile-Server/data/irn_admbnda_adm1_unhcr_20190514.shp')
 if country.crs != 4326:
   country = country.to_crs(4326)
@@ -67,7 +66,6 @@ for i, row in country.iterrows():
     list2 = np.arange(cornTop[1], cornBottom[1]+1)
     sTiles = np.array(np.meshgrid(list1, list2)).T.reshape(-1, 2)
     Tiles = num2Tiles (sTiles, zoom)
-    Out = gpd.sjoin(Tiles, country3857.loc[[i]], op = 'within')
+    Out = gpd.sjoin(Tiles, country3857.loc[[i]], op = 'intersects')
     Out = Out.reset_index(drop=True)
-    save = Out[['X', 'Y']].to_csv('/workspaces/Tile-Server/data/Tile numbers/Tiles_'+str(zoom)+'/'+row['ADM1_EN']+'.csv')
-    
+    save = Out[['X', 'Y']].to_csv('/workspaces/Tile-Server/data/Tile numbers/'+str(zoom)+'/'+row['ADM1_EN']+'.csv')
