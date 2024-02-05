@@ -8,7 +8,7 @@ import shutil
 
 
 refrence = osm
-zoom = 11
+zoom = 13
 s = datetime.utcnow()
 for region in [f.stem for f in Path('data/Tile numbers/'+str(zoom)).iterdir()]:
     numbs = pd.read_csv('/workspaces/Tile-Server/data/Tile numbers/'+str(zoom)+'/'+region+'.csv')
