@@ -4,7 +4,8 @@ import pandas as pd
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-'''
+
+
 refrence = osm
 zoom = 8
 s = datetime.utcnow()
@@ -17,7 +18,7 @@ print(e-s)
 
 
 
-
+'''
 tiles = TileFrame.Frame('data/irn_admbnda_adm0_unhcr_20190514.shp',zoom)
 
 tiles = TileList.LOT('data/irn_admbnda_adm0_unhcr_20190514.shp',zoom)
@@ -27,5 +28,3 @@ for tile in tiles:
     reference.downloader(zoom, x, y)
 
 '''
-for i in range(13):
-    Path.mkdir(Path('/workspaces/Tile-Server/data/Tile numbers/'+str(i)))
