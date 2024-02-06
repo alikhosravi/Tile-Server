@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Map Tile Test</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="static/mapbox-gl.css" rel="stylesheet">
+<script src="static/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div id="mn" style="position: fixed; margin-left: 20px;">
+    <p><button id = 'custom' style="background-color: #eff13f;" onclick="addNewLayer(this.id)"><h1>MyTiles</h1></button></p> 
+    <p><button id = 'osm' style="background-color: #d24ce4;" onclick="addNewLayer(this.id)"><h1>OSM</h1></button></p>
+    <p><button id = 'satellite' style="background-color: #4aee58;" onclick="addNewLayer(this.id)"><h1>Satellite</h1></button></p>
+    <p><button id = 'light' style="background-color: #e96d47;" onclick="addNewLayer(this.id)"><h1>Light</h1></button></p>
+</div>
+<script>
+    var activeLayer = 'custom'
+	mapboxgl.accessToken = 'pk.eyJ1IjoiYWxpMTIwMSIsImEiOiJjamQzbXYyZW8zcGhtMzJvNzQyOGJoOHJ2In0.l6aeeFJJIHd3PwgVsxINgg';
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        style: {
+            'version': 8,
+            'sources': {
+                'raster-tiles': {
+                    'type': 'raster',
+                    'tiles': ['http://127.0.0.1:8080/tiles/custom/{z}/{y}/{x}'],
+                    'tileSize': 256,
+                    'attribution':
+                        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }
+            },
+            'layers': [
+                {
+                    'id': 'custom',
+                    'type': 'raster',
+                    'source': 'raster-tiles',
+                    'minzoom': 0,
+                    'maxzoom': 22
+                }
+            ]
+        },
+        center: [60, 40], // starting position
+        zoom: 3 // starting zoom
+    });
+
+</script>
+<script>
+    mapStyles = ['custom', 'osm', 'satellite', 'light']
+    for (let index = 0; index < mapStyles.length; index++) {
+        console.log('http://127.0.0.1:8080/tiles/'+mapStyles[index]+'/{z}/{y}/{x}')
+        map.addSource(mapStyles[index], {
+        "type": "raster",
+        "tiles": ['http://127.0.0.1:8080/tiles/'+mapStyles[index]+'/{z}/{y}/{x}'],
+        "tileSize": 256
+        });
+    }
+</script>
+<script>
+    function addNewLayer(ID) {
+        map.removeLayer(activeLayer)
+        map.addLayer({"type": "raster", "id": ID,"source": ID})
+        globalThis.activeLayer = ID
+    }
+    
+</script>
+
+</body>
+</html>
